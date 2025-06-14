@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="utf-8">
+   <title>Aeromatx | Logout </title>
+   <meta content="width=device-width, initial-scale=1.0" name="viewport">
+   <meta content="Free HTML Templates" name="keywords">
+   <meta content="Free HTML Templates" name="description">
+
+   <!-- Favicon -->
+   <link href="img/favicon.ico" rel="icon">
+
+   <!-- Google Web Fonts -->
+   <link rel="preconnect" href="https://fonts.gstatic.com">
+   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+   <!-- Font Awesome -->
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+   <!-- Libraries Stylesheet -->
+   <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+   <!-- Customized Bootstrap Stylesheet -->
+   <link href="css/style.css" rel="stylesheet">
+   
+   <!-- header  -->
+   <script src="js/layout-loader.js"></script>
+   
+   <style>
+       .logout-container {
+           max-width: 600px;
+           margin: 0 auto;
+           padding: 30px;
+           background-color: #fff;
+           border-radius: 8px;
+           box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+       }
+       
+       .logout-icon {
+           font-size: 4rem;
+           color: #D19C97;
+           margin-bottom: 20px;
+       }
+       
+       .logout-options {
+           display: flex;
+           justify-content: center;
+           gap: 15px;
+           margin-top: 30px;
+       }
+   </style>
+</head>
+
+<body onload="loadLayout()">
+
+    <div id="header"></div>
+
+    <!-- header end  -->
+
+   <!-- Page Header Start -->
+   <div class="container-fluid bg-secondary mb-5">
+       <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
+           <h1 class="font-weight-semi-bold text-uppercase mb-3">Logout</h1>
+           <div class="d-inline-flex">
+               <p class="m-0"><a href="">Home</a></p>
+               <p class="m-0 px-2">-</p>
+               <p class="m-0">Logout</p>
+           </div>
+       </div>
+   </div>
+   <!-- Page Header End -->
+
+   <!-- Logout Start -->
+   <div class="container-fluid pt-5 pb-5">
+       <div class="row px-xl-5">
+           <div class="col-lg-8 mx-auto">
+               <div class="logout-container text-center">
+                   <div class="logout-icon">
+                       <i class="fa fa-sign-out-alt"></i>
+                   </div>
+                   <h2 class="font-weight-semi-bold mb-4">Are you sure you want to logout?</h2>
+                   <p class="text-muted mb-4">You will be securely logged out of your account. To access your account again, you'll need to log back in with your credentials.</p>
+                   
+                   <div class="logout-options">
+                       <a href="index.html" class="btn btn-primary py-2 px-4">
+                           <i class="fa fa-sign-out-alt mr-1"></i>Yes, Logout
+                       </a>
+                       <a href="javascript:history.back()" class="btn btn-outline-secondary py-2 px-4">
+                           <i class="fa fa-arrow-left mr-1"></i>No, Go Back
+                       </a>
+                   </div>
+                   
+                   <div class="mt-4">
+                       <a href="contact.html" class="text-primary">Need help? Contact support</a>
+                   </div>
+               </div>
+           </div>
+       </div>
+   </div>
+   <!-- Logout End -->
+
+   <!-- footer  -->
+   <div id="footer"></div>
+   <!-- footer end  -->
+
+   <!-- Back to Top -->
+   <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
+
+   <!-- JavaScript Libraries -->
+   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+   <script src="lib/easing/easing.min.js"></script>
+   <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+
+   <!-- Template Javascript -->
+   <script src="js/main.js"></script>
+   
+   <!-- Logout confirmation script -->
+   <script>
+       document.addEventListener('DOMContentLoaded', function() {
+           const logoutBtn = document.querySelector('.logout-options .btn-primary');
+           
+           logoutBtn.addEventListener('click', function(e) {
+               e.preventDefault();
+               
+               // Here you would typically make an AJAX call to a logout endpoint
+               // For now, we'll just simulate the logout and redirect
+               
+               setTimeout(function() {
+                   window.location.href = 'index.html';
+               }, 500);
+           });
+       });
+   </script>
+</body>
+</html>

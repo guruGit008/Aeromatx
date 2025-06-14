@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AeroMatX | Rf compeonts</title>
+     <link rel="icon" type="image/png" href="images/favicon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+      .search-bar {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-left: 20px;
+    flex-grow: 1;
+    width: 600px;
+}
+
+.search-bar input {
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 300%;
+    font-size: 16px;
+}
+
+.search-bar button {
+    background-color: #007bff;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+}
+
+.search-bar button i {
+    font-size: 14px;
+}
+    </style> 
+</head>
+<body>
+    <header class="header">
+        <div class="top-bar">
+            <span class="highlight">
+                Empowering Breakthrough Innovations — Seamlessly From Raw Materials to RF Excellence !
+            </span>
+        </div>
+        <nav class="main-nav">
+            <div class="nav-container">
+                <a href="index.html" class="logo">
+                    <span class="aero">Aero</span>
+                    <span class="matx">MatX</span>
+                </a>
+
+                <ul class="nav-menu" id="navMenu">
+                     <li class="nav-item">
+                        <a href="index.html" class="nav-link dropdown">All Categories</a>
+                        <div class="mega-menu">
+                            </div>
+                    </li>
+                    <div class="search-bar">
+                        <input type="text" id="searchInput" placeholder="Search products..." />
+                        <button type="button" onclick="searchProducts()">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </ul>
+
+                <div class="nav-actions">
+                    <div class="cart-wishlist">
+                        <a href="#cart" class="cart-btn">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="badge">0</span>
+                        </a>
+                    </div>
+
+                    <div class="auth-buttons" id="auth-buttons-container">
+                        <a href="login.html" class="btn btn-login" id="login-button">Login</a>
+                        <a href="register.html" class="btn btn-register" id="register-button">Register</a>
+                        <span id="user-display" style="display: none; color: #333; margin-left: 10px; font-weight: bold;"></span> </div>
+                </div>
+
+                <a href="#" id="logout-button" style="display: none;">Logout</a>
+
+                <button class="mobile-toggle" id="mobileToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Script to fetch user info and display username/auth state -->
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+      const authToken = localStorage.getItem("authToken");
+      const userDisplay = document.getElementById("user-display");
+      const loginButton = document.getElementById("login-button");
+      const registerButton = document.getElementById("register-button");
+      const logoutButton = document.getElementById("logout-button");
+      const authButtonsContainer = document.getElementById("auth-buttons-container"); // Container for buttons/username
+
+      function showLoggedOutState() {
+          console.log("Showing logged out state");
+          if (userDisplay) userDisplay.style.display = "none";
+          if (loginButton) loginButton.style.display = "inline-block";
+          if (registerButton) registerButton.style.display = "inline-block";
+          if (logoutButton) logoutButton.style.display = "none";
+      }
+
+      function showLoggedInState(username) {
+          console.log("Showing logged in state for:", username);
+          if (userDisplay) {
+              userDisplay.textContent = `Welcome, ${username}`;
+              userDisplay.style.display = "inline"; // Show username
+          }
+          if (loginButton) loginButton.style.display = "none";
+          if (registerButton) registerButton.style.display = "none";
+          if (logoutButton) logoutButton.style.display = "inline-block";
+      }
+
+      if (authToken) {
+          console.log("Auth token found, fetching user info...");
+          fetch("http://localhost:8080/api/users/me", { // Adjust URL if needed
+              method: "GET",
+              headers: {
+                  "Authorization": `Bearer ${authToken}`,
+                  "Content-Type": "application/json"
+              }
+          })
+          .then(response => {
+              if (response.ok) {
+                  return response.json();
+              } else {
+                  // If token is invalid/expired (e.g., 401 Unauthorized)
+                  console.error("Failed to fetch user info, status:", response.status);
+                  throw new Error("Authentication failed");
+              }
+          })
+          .then(userData => {
+              // Assuming the backend returns { "username": "..." } or similar
+              if (userData && userData.username) {
+                  // Store username locally again in case needed elsewhere, though fetching is primary
+                  localStorage.setItem("loggedInUsername", userData.username);
+                  showLoggedInState(userData.username);
+              } else {
+                  console.error("Username not found in response data");
+                  // Handle case where response is OK but data is missing username
+                  localStorage.removeItem("loggedInUsername");
+                  localStorage.removeItem("authToken");
+                  showLoggedOutState();
+              }
+          })
+          .catch(error => {
+              console.error("Error fetching user info:", error);
+              // Clear invalid token and username from storage
+              localStorage.removeItem("loggedInUsername");
+              localStorage.removeItem("authToken");
+              showLoggedOutState();
+          });
+      } else {
+          // No auth token found
+          console.log("No auth token found in localStorage.");
+          showLoggedOutState();
+      }
+
+      // Logout Button Logic (ensure token is removed)
+      if (logoutButton) {
+          logoutButton.addEventListener("click", function (event) {
+              event.preventDefault(); // Prevent default link behavior
+              console.log("Logging out...");
+              localStorage.removeItem("loggedInUsername");
+              localStorage.removeItem("authToken"); // Ensure token is removed
+              showLoggedOutState(); // Update UI immediately
+              window.location.href = "login.html"; // Redirect to login page
+          });
+      }
+  });
+</script>
+</body>
+</html>

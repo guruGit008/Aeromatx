@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Aeromatx | Register </title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Aerospace Defense Registration" name="keywords">
+    <meta content="Create an account with Aeromatx" name="description">
+
+    <link href="img/favicon.ico" rel="icon">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <link href="css/style.css" rel="stylesheet">
+
+    <script src="js/api.js"></script>
+    <script src="js/layout-loader.js"></script>
+    <!-- Keep main.js for other functionalities, but this script will handle register logic -->
+    <!-- <script src="js/main.js"></script> --> 
+</head>
+
+<body>
+
+    <div class="container-fluid bg-secondary mb-5">
+        <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
+            <h1 class="font-weight-semi-bold text-uppercase mb-3">Register Account</h1>
+            <div class="d-inline-flex">
+                <p class="m-0"><a href="">Home</a></p>
+                <p class="m-0 px-2">-</p>
+                <p class="m-0">Register</p>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid pt-5">
+        <div class="text-center mb-4">
+            <h2 class="section-title px-5"><span class="px-2">Create Your Account</span></h2>
+        </div>
+        <div class="row px-xl-5 justify-content-center">
+            <div class="col-lg-7 mb-5">
+                <div class="contact-form">
+                    <div id="success"></div>
+                    <div id="registerMessage" class="mb-3 text-center"></div>
+
+                    <!-- Step 1: Initial Registration Form -->
+                    <form name="registrationFormStep1" id="registrationFormStep1" novalidate>
+                        <div id="registrationFields">
+                            <div class="control-group mb-4">
+                                <label for="role" class="required">Account Type</label>
+                                <select class="form-control" id="role" name="role" required>
+                                    <option value="" disabled selected>Select Account Type</option>
+                                    <option value="CUSTOMER">Customer</option>
+                                    <option value="OEM">OEM</option>
+                                </select>
+                                <p class="help-block text-danger"></p>
+                            </div>
+
+                            <div class="control-group">
+                                <label for="username" class="required">Username</label>
+                                <input type="text" class="form-control" id="username" placeholder="Username" required />
+                                <p class="help-block text-danger"></p>
+                            </div>
+                            <div class="control-group">
+                                <label for="email" class="required">Email</label>
+                                <input type="email" class="form-control" id="email" placeholder="Your Email" required />
+                                <p class="help-block text-danger"></p>
+                            </div>
+                            <div class="control-group">
+                                <label for="company" class="required">Company Name</label>
+                                <input type="text" class="form-control" id="company" placeholder="Company Name" required />
+                                <p class="help-block text-danger"></p>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="control-group">
+                                        <label for="password" class="required">Password</label>
+                                        <input type="password" class="form-control" id="password" placeholder="Password" required />
+                                        <p class="help-block text-danger"></p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="control-group">
+                                        <label for="confirmPassword" class="required">Confirm Password</label>
+                                        <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm Password" required />
+                                        <p class="help-block text-danger"></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <button class="btn btn-primary py-2 px-4" type="submit" id="sendOtpButton">Send OTP</button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <!-- Step 2: OTP Verification Section (Initially hidden) -->
+                    <div id="otpVerificationSection" style="display: none;">
+                        <form name="otpFormStep2" id="otpFormStep2" novalidate>
+                            <div class="control-group mt-4">
+                                <label for="otp" class="required">Enter OTP</label>
+                                <input type="text" class="form-control" id="otp" placeholder="Enter 6-digit OTP"
+                                    required maxlength="6" pattern="\d{6}" title="OTP must be a 6-digit number"/>
+                                <p class="help-block text-danger"></p>
+                            </div>
+                            <div class="text-center mt-3">
+                                <button class="btn btn-success py-2 px-4" type="submit" id="verifyOtpButton">Verify OTP & Register</button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <div class="mt-4 text-center">
+                        <p>Already have an account? <a href="login.html">Sign In</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+
+    <!-- Consider if main.js needs to run before or after your custom script for register.html -->
+    <script src="js/main.js"></script> 
+
+    <script>
+        const registrationFormStep1 = document.getElementById("registrationFormStep1");
+        const registrationFields = document.getElementById("registrationFields"); // New container for step 1 fields
+        const otpVerificationSection = document.getElementById("otpVerificationSection");
+        const otpFormStep2 = document.getElementById("otpFormStep2"); // New ID for OTP form
+        const otpInput = document.getElementById("otp");
+        const sendOtpButton = document.getElementById("sendOtpButton");
+        const verifyOtpButton = document.getElementById("verifyOtpButton");
+        
+        const usernameInput = document.getElementById("username");
+        const emailInput = document.getElementById("email");
+        const companyInput = document.getElementById("company");
+        const roleInput = document.getElementById("role");
+        const passwordInput = document.getElementById("password");
+        const confirmPasswordInput = document.getElementById("confirmPassword");
+        const messageDiv = document.getElementById("registerMessage");
+
+        let emailForOtpVerification = ""; // To hold the email for the second step
+
+        const initiateRegisterApiUrl = "http://localhost:8080/api/auth/register";
+        const verifyOtpApiUrl = "http://localhost:8080/api/auth/register/verify-otp";
+
+        // Helper function to display messages
+        function displayMessage(text, color) {
+            messageDiv.textContent = text;
+            messageDiv.style.color = color;
+            messageDiv.style.display = "block";
+        }
+
+        // --- Step 1: Initiate Registration (Send OTP) ---
+        registrationFormStep1.addEventListener("submit", async function(event) {
+            event.preventDefault(); // Prevent default form submission
+            displayMessage("", "inherit"); // Clear previous messages
+
+            // --- Client-side Validation (for initial registration form) ---
+            const username = usernameInput.value.trim();
+            const email = emailInput.value.trim();
+            const company = companyInput.value.trim();
+            const role = roleInput.value;
+            const password = passwordInput.value;
+            const confirmPassword = confirmPasswordInput.value;
+
+            if (!username || !email || !company || !role || !password || !confirmPassword) {
+                displayMessage("Please fill in all required fields.", "red");
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                displayMessage("Passwords do not match.", "red");
+                return;
+            }
+
+            if (password.length < 6) {
+                displayMessage("Password must be at least 6 characters long.", "red");
+                return;
+            }
+            // --- End Client-side Validation ---
+
+            const registrationData = { 
+                username: username,
+                email: email,
+                password: password,
+                company: company,
+                role: role 
+            };
+            emailForOtpVerification = email; // Store email for the second step
+
+            displayMessage("Sending OTP...", "blue"); 
+
+            try {
+                const response = await fetch(initiateRegisterApiUrl, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(registrationData),
+                });
+
+                const data = await response.json(); 
+
+                if (response.ok) { 
+                    displayMessage(data.message || "OTP sent successfully! Check your email.", "green");
+
+                    // Hide registration fields and show OTP verification section
+                    registrationFields.style.display = 'none'; // Hide the entire registration fields container
+                    otpVerificationSection.style.display = 'block'; // Show OTP section
+                    otpInput.focus(); // Focus on OTP input
+                } else {
+                    const errorDetails = data.message || "Failed to send OTP. Please try again.";
+                    displayMessage(errorDetails, "red");
+                }
+            } catch (error) {
+                console.error("Initiate registration error:", error);
+                displayMessage("An unexpected error occurred. Please try again later.", "red");
+            }
+        });
+
+        // --- Step 2: Verify OTP and Complete Registration ---
+        otpFormStep2.addEventListener("submit", async function(event) {
+            event.preventDefault(); // Prevent default form submission
+            displayMessage("", "inherit"); // Clear previous messages
+
+            const otp = otpInput.value.trim();
+
+            if (!otp) {
+                displayMessage("Please enter the OTP.", "red");
+                return;
+            }
+            if (otp.length !== 6 || !/^\d{6}$/.test(otp)) {
+                displayMessage("OTP must be a 6-digit number.", "red");
+                return;
+            }
+
+            const verificationData = {
+                email: emailForOtpVerification, // Use the email captured from step 1
+                otp: otp
+            };
+
+            displayMessage("Verifying OTP...", "blue");
+
+            try {
+                const response = await fetch(verifyOtpApiUrl, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(verificationData),
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    console.log("OTP verification successful:", data);
+                    displayMessage(data.message || "Registration successful! You can now sign in.", "green");
+                    otpVerificationSection.style.display = 'none'; // Hide OTP section on final success
+                    registrationFormStep1.reset(); // Clear original form
+
+                    // Optionally redirect after a short delay
+                    setTimeout(() => { window.location.href = "login.html"; }, 2000);
+                } else {
+                    const errorDetails = data.message || "OTP verification failed. Please try again.";
+                    displayMessage(errorDetails, "red");
+                }
+            } catch (error) {
+                console.error("OTP verification error:", error);
+                displayMessage("An unexpected error occurred during OTP verification. Please try again later.", "red");
+            }
+        });
+    </script>
+</body>
+
+</html>

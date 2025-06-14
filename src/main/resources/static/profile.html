@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="utf-8">
+   <title>Aeromatx | Profile </title>
+   <meta content="width=device-width, initial-scale=1.0" name="viewport">
+   <meta content="Free HTML Templates" name="keywords">
+   <meta content="Free HTML Templates" name="description">
+
+   <!-- Favicon -->
+   <link href="img/favicon.ico" rel="icon">
+
+   <!-- Google Web Fonts -->
+   <link rel="preconnect" href="https://fonts.gstatic.com">
+   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+   <!-- Font Awesome -->
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+   <!-- Libraries Stylesheet -->
+   <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+   <!-- Customized Bootstrap Stylesheet -->
+   <link href="../static/css/style.css" rel="stylesheet">
+   
+   <!-- header  -->
+   <script src="../static/js/main.js"></script>
+</head>
+
+<body onload="loadLayout()">
+
+    <div id="header"></div>
+
+    <!-- header end  -->
+
+   <!-- Page Header Start -->
+   <div class="container-fluid bg-secondary mb-5">
+       <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
+           <h1 class="font-weight-semi-bold text-uppercase mb-3">My Profile</h1>
+           <div class="d-inline-flex">
+               <p class="m-0"><a href="">Home</a></p>
+               <p class="m-0 px-2">-</p>
+               <p class="m-0">Profile</p>
+           </div>
+       </div>
+   </div>
+   <!-- Page Header End -->
+
+   <!-- Profile Start -->
+   <div class="container-fluid pt-5">
+       <div class="text-center mb-4">
+           <h2 class="section-title px-5"><span class="px-2">Account Information</span></h2>
+       </div>
+       <div class="row px-xl-5">
+           <div class="col-lg-8 mx-auto mb-5">
+               <div class="card border-0">
+                   <div class="card-header bg-primary text-white">
+                       <i class="fa fa-user-circle mr-2"></i>Personal Details
+                   </div>
+                   <div class="card-body">
+                       <form>
+                           <div class="form-group row">
+                               <label class="col-sm-3 col-form-label font-weight-semi-bold">Full Name</label>
+                               <div class="col-sm-9">
+                                   <input type="text" class="form-control" value="John Doe" id="fullName">
+                               </div>
+                           </div>
+                           <div class="form-group row">
+                               <label class="col-sm-3 col-form-label font-weight-semi-bold">Email</label>
+                               <div class="col-sm-9">
+                                   <input type="email" class="form-control" value="john@example.com" id="email" readonly>
+                                   <small class="text-muted">Email cannot be changed</small>
+                               </div>
+                           </div>
+                           <div class="form-group row">
+                               <label class="col-sm-3 col-form-label font-weight-semi-bold">Phone</label>
+                               <div class="col-sm-9">
+                                   <input type="text" class="form-control" value="+1 234 567 8900" id="phone">
+                               </div>
+                           </div>
+                           <div class="form-group row">
+                               <label class="col-sm-3 col-form-label font-weight-semi-bold">Company</label>
+                               <div class="col-sm-9">
+                                   <input type="text" class="form-control" value="Aerospace Solutions Inc." id="company">
+                               </div>
+                           </div>
+                           <hr>
+                           <div class="form-group row">
+                               <label class="col-sm-3 col-form-label font-weight-semi-bold">Address</label>
+                               <div class="col-sm-9">
+                                   <textarea class="form-control" rows="3" id="address">123 Aviation Blvd, Suite 300
+New York, NY 10001</textarea>
+                               </div>
+                           </div>
+                           <div class="text-right">
+                               <button type="submit" class="btn btn-primary py-2 px-4">Save Changes</button>
+                           </div>
+                       </form>
+                   </div>
+               </div>
+               
+               <div class="card border-0 mt-4">
+                   <div class="card-header bg-primary text-white">
+                       <i class="fa fa-lock mr-2"></i>Security
+                   </div>
+                   <div class="card-body">
+                       <form>
+                           <div class="form-group row">
+                               <label class="col-sm-3 col-form-label font-weight-semi-bold">Current Password</label>
+                               <div class="col-sm-9">
+                                   <input type="password" class="form-control" id="currentPassword">
+                               </div>
+                           </div>
+                           <div class="form-group row">
+                               <label class="col-sm-3 col-form-label font-weight-semi-bold">New Password</label>
+                               <div class="col-sm-9">
+                                   <input type="password" class="form-control" id="newPassword">
+                               </div>
+                           </div>
+                           <div class="form-group row">
+                               <label class="col-sm-3 col-form-label font-weight-semi-bold">Confirm Password</label>
+                               <div class="col-sm-9">
+                                   <input type="password" class="form-control" id="confirmPassword">
+                               </div>
+                           </div>
+                           <div class="text-right">
+                               <button type="submit" class="btn btn-primary py-2 px-4">Update Password</button>
+                           </div>
+                       </form>
+                   </div>
+               </div>
+               
+               <div class="text-center mt-4">
+                   <a href="logout.html" class="btn btn-outline-danger py-2 px-4">
+                       <i class="fa fa-sign-out-alt mr-1"></i>Logout
+                   </a>
+               </div>
+           </div>
+       </div>
+   </div>
+   <!-- Profile End -->
+
+   <!-- footer  -->
+   <div id="footer"></div>
+   <!-- footer end  -->
+
+   <!-- Back to Top -->
+   <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
+
+   <!-- JavaScript Libraries -->
+   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+   <script src="lib/easing/easing.min.js"></script>
+   <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+
+   <!-- Template Javascript -->
+   <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Aeromatx | Login</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Aerospace Defense Login" name="keywords">
+    <meta content="Access your Aeromatx account" name="description">
+
+    <link href="img/favicon.ico" rel="icon">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+
+    <link href="css/style.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <div class="particles-container" id="particles"></div>
+
+    <div class="login-container">
+        <div class="login-image">
+            <div class="image-content">
+                <div class="brand-logo">
+                    <img src="assets/flight.png" width="60" height="60" alt="Aeromatx Logo">
+                </div>
+                <h2>Welcome to Aeromatx</h2>
+                <p>Your gateway to premium aerospace components, equipment, and supplies for aviation enthusiasts and professionals.</p>
+
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-check" style="color: white; font-size: 12px;"></i>
+                        </div>
+                        <span>Access to thousands of aerospace parts</span>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-check" style="color: white; font-size: 12px;"></i>
+                        </div>
+                        <span>Fast global shipping & competitive pricing</span>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-check" style="color: white; font-size: 12px;"></i>
+                        </div>
+                        <span>Military-grade quality assurance</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="login-form">
+            <h1>Launch your journey</h1>
+            <div id="loginMessage" style="color: red; margin-top: 10px;"></div>
+
+            <form id="loginForm">
+                <div class="input-group">
+                    <input type="email" id="email" placeholder=" " autocomplete="email" required>
+                    <label for="email">Email Address</label>
+                </div>
+
+                <div class="input-group">
+                    <input type="password" id="password" placeholder=" " autocomplete="current-password" required>
+                    <label for="password">Password</label>
+                </div>
+
+                <div class="remember-forgot">
+                    <div class="checkbox-container">
+                        <input type="checkbox" id="remember" autocomplete="off">
+                        <label for="remember">Remember me</label>
+                    </div>
+                    <a href="forgot-password.html" class="forgot-password">Forgot Password?</a>
+                </div>
+
+                <button type="submit" class="login-btn">
+                    Launch Access
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 8px;">
+                        <path d="M5 12h14"></path>
+                        <path d="m12 5 7 7-7 7"></path>
+                    </svg>
+                </button>
+
+                <div class="register-link">
+                    <p>Don't have an account? <a href="register.html">Register now</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            if (typeof particlesJS !== "undefined") {
+                particlesJS("particles", {
+                    particles: {
+                        number: { value: 80, density: { enable: true, value_area: 800 } },
+                        color: { value: "#FF4500" },
+                        shape: { type: "circle" },
+                        opacity: { value: 0.5 },
+                        size: { value: 9, random: true },
+                        line_linked: {
+                            enable: true,
+                            distance: 200,
+                            color: "#FF4500",
+                            opacity: 0.5,
+                            width: 1
+                        },
+                        move: {
+                            enable: true,
+                            speed: 4,
+                            direction: "none",
+                            out_mode: "out"
+                        }
+                    },
+                    interactivity: {
+                        detect_on: "canvas",
+                        events: {
+                            onhover: { enable: true, mode: "repulse" },
+                            onclick: { enable: true, mode: "push" },
+                            resize: true
+                        }
+                    },
+                    retina_detect: true
+                        }
+                );
+            }
+        });
+    </script>
+<script>
+    // login js
+
+document.addEventListener("DOMContentLoaded", function() {
+    // Select the form and input elements
+    const loginForm = document.getElementById("loginForm");
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
+    const loginMessageDiv = document.getElementById("loginMessage");
+
+    // Check if the login form element exists before trying to add an event listener
+    if (loginForm) {
+        // Add an event listener for the form submission
+        loginForm.addEventListener("submit", async function(event) { // Use async for await
+            event.preventDefault(); // Prevent the default form submission (page reload)
+
+            const email = emailInput.value;
+            const password = passwordInput.value;
+
+            // Clear previous messages and set default error color
+            loginMessageDiv.textContent = "";
+            loginMessageDiv.style.color = "red";
+
+            // Basic client-side validation for email format
+            if (!email.includes('@')) {
+                loginMessageDiv.textContent = "Please include an '@' in the email address.";
+                return; // Stop the function if validation fails
+            }
+
+            // Construct the request body as a JSON object
+            const loginData = {
+                email: email,
+                password: password
+            };
+
+            // !!! IMPORTANT: Replace with your actual login API endpoint !!!
+            const API_ENDPOINT = "http://localhost:8080/api/auth/login"; // Example URL
+
+            try {
+                // Make the API call using fetch
+                const res = await fetch(API_ENDPOINT, {
+                    method: "POST", // Usually POST for login
+                    headers: {
+                        "Content-Type": "application/json",
+                        // Add any other necessary headers, e.g., for CSRF tokens or API keys
+                    },
+                    body: JSON.stringify(loginData), // Send the data as a JSON string
+                });
+
+                // Check if the response status is OK (2xx success)
+                if (!res.ok) {
+                    // If response is not OK, try to parse an error message from the body
+                    let errorMessage = `Login failed. Status: ${res.status}`;
+                    try {
+                        const errorData = await res.json();
+                        if (errorData && errorData.message) {
+                            errorMessage = errorData.message; // Use backend's error message
+                        }
+                    } catch (e) {
+                        // If parsing JSON error fails, use a generic message
+                        console.error("Failed to parse error response JSON:", e);
+                    }
+                    throw new Error(errorMessage); // Throw an error to be caught by the .catch block
+                }
+
+                // Parse the JSON body for successful responses
+                const data = await res.json();
+
+                // Check if the token exists in the parsed data (adjust 'data.token' and 'data.username' based on your API's actual response structure)
+                if (data && data.token) {
+                    console.log("Login successful, token:", data.token);
+                    // Store user data in localStorage (e.g., token, username)
+                    localStorage.setItem("loggedInUsername", data.username || email); // Store username if available, else email
+                    localStorage.setItem("authToken", data.token);
+
+                    // Display success message and redirect
+                    loginMessageDiv.textContent = "Login successful! Redirecting...";
+                    loginMessageDiv.style.color = "green"; // Set to a success color
+                    window.location.href = "splash.html"; // Redirect to your main application page
+                } else {
+                    // If no token is found in the successful response, treat as an unexpected server response
+                    console.log("Login response did not contain expected token:", data);
+                    loginMessageDiv.textContent = "Login failed: Invalid server response. Please try again.";
+                }
+
+            } catch (error) {
+                // Catch any errors during the fetch operation or from the `throw new Error` above
+                console.error("Login error:", error);
+                // Display the error message to the the user
+                loginMessageDiv.textContent = error.message || "An unexpected error occurred while logging in.";
+            }
+        });
+    } else {
+        // This console.error will fire if the loginForm element isn't found in the HTML.
+        // If you see this, double-check your login.html for <form id="loginForm">
+        console.error("Login form with ID 'loginForm' not found. Ensure the ID is correct in login.html.");
+    }
+
+    // If your main.js also contains Owl Carousel initialization, it would go here.
+    // Example (uncomment if you have an Owl Carousel on your page and jQuery is loaded):
+    // if (typeof $ !== 'undefined' && $.fn.owlCarousel) {
+    //     $('.your-carousel-element-selector').owlCarousel({
+    //         loop: true,
+    //         margin: 10,
+    //         nav: true,
+    //         // ... other Owl Carousel options
+    //     });
+    // }
+});
+
+
+// end of login js
+</script>
+</body>
+</html>
