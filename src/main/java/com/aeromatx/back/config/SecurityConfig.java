@@ -72,7 +72,10 @@ public class SecurityConfig {
             "/lib/**", // All files under /lib/
             "/favicon.ico", // Favicon
             "/fonts/**", // All files under /js/
-            "/error" // The default Spring Boot error page
+            "/error", // The default Spring Boot error page
+            "/admin_pannel/**",// All files under /admin_pannel/
+            "/admin_pannel/css/**", // All files under /admin_pannel/css/
+            "/admin_pannel/js/**" // All files under /admin_pannel/css/
         );
     }
 
