@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <!-- Sidebar -->
     <div class="sidebar">
         <div class="sidebar-header">
             <h2>Admin Panel</h2>
@@ -66,9 +65,7 @@
         </div>
     </div>
     
-    <!-- Main Content -->
     <div class="main">
-        <!-- Top Navigation -->
         <div class="top-nav">
             <div class="search-bar">
                 <i class="fas fa-search"></i>
@@ -84,7 +81,6 @@
             </div>
         </div>
         
-        <!-- Content Area -->
         <div class="content">
             <div class="page-header">
                 <h2>Customers Management</h2>
@@ -106,22 +102,18 @@
                                 <th>ID</th>
                                 <th>Name</th>
                                 <th>Email</th>
-                                <th>Phone</th>
                                 <th>Orders</th>
-                                <th>Registered</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- Customers will be loaded via JavaScript -->
-                        </tbody>
+                            </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Add Customer Modal -->
     <div class="modal" id="addCustomerModal">
         <div class="modal-content">
             <div class="modal-header">
@@ -138,11 +130,7 @@
                         <label for="customerEmail">Email</label>
                         <input type="email" id="customerEmail" class="form-control" required>
                     </div>
-                    <div class="form-group">
-                        <label for="customerPhone">Phone</label>
-                        <input type="tel" id="customerPhone" class="form-control">
-                    </div>
-                </form>
+                    </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn" onclick="document.getElementById('addCustomerModal').style.display='none'">Cancel</button>
@@ -151,7 +139,6 @@
         </div>
     </div>
 
-    <!-- Edit Customer Modal -->
     <div class="modal" id="editCustomerModal">
         <div class="modal-content">
             <div class="modal-header">
@@ -169,11 +156,7 @@
                         <label for="editCustomerEmail">Email</label>
                         <input type="email" id="editCustomerEmail" class="form-control" required>
                     </div>
-                    <div class="form-group">
-                        <label for="editCustomerPhone">Phone</label>
-                        <input type="tel" id="editCustomerPhone" class="form-control">
-                    </div>
-                </form>
+                    </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn" onclick="document.getElementById('editCustomerModal').style.display='none'">Cancel</button>
