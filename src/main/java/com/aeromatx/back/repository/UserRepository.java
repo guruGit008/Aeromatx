@@ -1,5 +1,8 @@
+// src/main/java/com/aeromatx/back/repository/UserRepository.java
+
 package com.aeromatx.back.repository;
 
+import com.aeromatx.back.entity.ERole; // <--- ADD THIS IMPORT
 import com.aeromatx.back.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -14,16 +17,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByUsername(String username);
     Boolean existsByUsername(String username);
     Optional<User> findByEmail(String email);
-    
+
     Boolean existsByEmail(String email);
 
-    // --- New method for Password Reset functionality ---
-    // Finds a user by their password reset token
     Optional<User> findByResetPasswordToken(String resetPasswordToken);
-    // --- End New method ---
 
-    // Existing method to find users by role name
-    // Assumes your Role entity has a 'name' field (e.g., "ROLE_CUSTOMER", "ROLE_OEM")
+    // CHANGE THIS LINE: Accept ERole as parameter
     @Query("SELECT u FROM User u JOIN u.roles r WHERE r.name = :roleName")
-    List<User> findByRoleName(@Param("roleName") String roleName);
+    List<User> findByRoleName(@Param("roleName") ERole roleName); // <--- Changed from String to ERole
 }

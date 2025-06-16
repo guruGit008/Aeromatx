@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings | E-commerce Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2>Admin Panel</h2>
+        </div>
+        <div class="sidebar-menu">
+            <h3>Main</h3>
+            <a href="index.html">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="products.html">
+                <i class="fas fa-shopping-bag"></i>
+                <span>Products</span>
+            </a>
+            <a href="categories.html">
+                <i class="fas fa-list"></i>
+                <span>Categories</span>
+            </a>
+            <a href="orders.html">
+                <i class="fas fa-tags"></i>
+                <span>Orders</span>
+            </a>
+            <a href="customers.html">
+                <i class="fas fa-users"></i>
+                <span>Customers</span>
+            </a>
+            
+            <h3>Management</h3>
+            <a href="#">
+                <i class="fas fa-chart-line"></i>
+                <span>Analytics</span>
+            </a>
+            <a href="#">
+                <i class="fas fa-file-invoice-dollar"></i>
+                <span>Sales</span>
+            </a>
+            <a href="#">
+                <i class="fas fa-truck"></i>
+                <span>Shipping</span>
+            </a>
+            <a href="#">
+                <i class="fas fa-comment-alt"></i>
+                <span>Reviews</span>
+            </a>
+            
+            <h3>Settings</h3>
+            <a href="settings.html" class="active">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </a>
+            <a href="#">
+                <i class="fas fa-user-shield"></i>
+                <span>Admins</span>
+            </a>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main">
+        <!-- Top Navigation -->
+        <div class="top-nav">
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search...">
+            </div>
+            <div class="user-menu">
+                <div class="notification">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge">3</span>
+                </div>
+                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User">
+                <span>Admin User</span>
+            </div>
+        </div>
+        
+        <!-- Content Area -->
+        <div class="content">
+            <div class="page-header">
+                <h2>Store Settings</h2>
+            </div>
+            
+            <div id="alertContainer"></div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h3>General Settings</h3>
+                </div>
+                <div class="card-body">
+                    <form id="settingsForm">
+                        <div class="form-group">
+                            <label for="storeName">Store Name</label>
+                            <input type="text" id="storeName" class="form-control" value="My E-commerce Store">
+                        </div>
+                        <div class="form-group">
+                            <label for="storeEmail">Store Email</label>
+                            <input type="email" id="storeEmail" class="form-control" value="contact@myecommercestore.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="storePhone">Store Phone</label>
+                            <input type="tel" id="storePhone" class="form-control" value="+1 234 567 8900">
+                        </div>
+                        <div class="form-group">
+                            <label for="storeAddress">Store Address</label>
+                            <textarea id="storeAddress" class="form-control" rows="3">123 Main Street, City, Country</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="storeCurrency">Currency</label>
+                            <select id="storeCurrency" class="form-control">
+                                <option value="USD" selected>US Dollar ($)</option>
+                                <option value="EUR">Euro (€)</option>
+                                <option value="GBP">British Pound (£)</option>
+                                <option value="JPY">Japanese Yen (¥)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="storeTimezone">Timezone</label>
+                            <select id="storeTimezone" class="form-control">
+                                <option value="UTC" selected>UTC</option>
+                                <option value="EST">Eastern Time (EST)</option>
+                                <option value="PST">Pacific Time (PST)</option>
+                                <option value="GMT">Greenwich Mean Time (GMT)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Save Settings</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load settings if any
+            const settings = JSON.parse(localStorage.getItem('ecommerceSettings')) || {};
+            
+            if (settings.storeName) document.getElementById('storeName').value = settings.storeName;
+            if (settings.storeEmail) document.getElementById('storeEmail').value = settings.storeEmail;
+            if (settings.storePhone) document.getElementById('storePhone').value = settings.storePhone;
+            if (settings.storeAddress) document.getElementById('storeAddress').value = settings.storeAddress;
+            if (settings.storeCurrency) document.getElementById('storeCurrency').value = settings.storeCurrency;
+            if (settings.storeTimezone) document.getElementById('storeTimezone').value = settings.storeTimezone;
+            
+            // Save settings
+            document.getElementById('settingsForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const settings = {
+                    storeName: document.getElementById('storeName').value,
+                    storeEmail: document.getElementById('storeEmail').value,
+                    storePhone: document.getElementById('storePhone').value,
+                    storeAddress: document.getElementById('storeAddress').value,
+                    storeCurrency: document.getElementById('storeCurrency').value,
+                    storeTimezone: document.getElementById('storeTimezone').value
+                };
+                
+                localStorage.setItem('ecommerceSettings', JSON.stringify(settings));
+                
+                showAlert('Settings saved successfully', 'success');
+            });
+        });
+        
+        function showAlert(message, type) {
+            const alertContainer = document.getElementById('alertContainer');
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type}`;
+            alert.textContent = message;
+            alertContainer.appendChild(alert);
+            
+            // Remove alert after 3 seconds
+            setTimeout(() => {
+                alert.remove();
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products | E-commerce Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2>Admin Panel</h2>
+        </div>
+        <div class="sidebar-menu">
+            <h3>Main</h3>
+            <a href="index.html">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="products.html">
+                <i class="fas fa-shopping-bag"></i>
+                <span>Products</span>
+            </a>
+            <a href="categories.html">
+                <i class="fas fa-list"></i>
+                <span>Categories</span>
+            </a>
+            <a href="orders.html">
+                <i class="fas fa-tags"></i>
+                <span>Orders</span>
+            </a>
+            <a href="customers.html">
+                <i class="fas fa-users"></i>
+                <span>Customers</span>
+            </a>
+            
+            <h3>Management</h3>
+            <a href="#">
+                <i class="fas fa-chart-line"></i>
+                <span>Analytics</span>
+            </a>
+            <a href="#">
+                <i class="fas fa-file-invoice-dollar"></i>
+                <span>Sales</span>
+            </a>
+            <a href="#">
+                <i class="fas fa-truck"></i>
+                <span>Shipping</span>
+            </a>
+            <a href="#">
+                <i class="fas fa-comment-alt"></i>
+                <span>Reviews</span>
+            </a>
+            
+            <h3>Settings</h3>
+            <a href="settings.html">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </a>
+            <a href="#">
+                <i class="fas fa-user-shield"></i>
+                <span>Admins</span>
+            </a>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main">
+        <!-- Top Navigation -->
+        <div class="top-nav">
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search products..." id="productSearch">
+            </div>
+            <div class="user-menu">
+                <div class="notification">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge">3</span>
+                </div>
+                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User">
+                <span>Admin User</span>
+            </div>
+        </div>
+        
+        <!-- Content Area -->
+        <div class="content">
+            <div class="page-header">
+                <h2>Products Management</h2>
+                <button class="btn btn-primary" data-toggle="modal" data-target="#addProductModal">
+                    <i class="fas fa-plus"></i> Add Product
+                </button>
+            </div>
+            
+            <div id="alertContainer"></div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h3>All Products</h3>
+                    <div>
+                        <select id="categoryFilter" class="form-control" style="width: auto; display: inline-block;">
+                            <option value="">All Categories</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table id="productsTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Product</th>
+                                <th>Category</th>
+                                <th>Price</th>
+                                <th>Stock</th>
+                                <th>Sales</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Products will be loaded via JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Product Modal -->
+    <div class="modal" id="addProductModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New Product</h3>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="addProductForm">
+                    <div class="form-group">
+                        <label for="productName">Product Name</label>
+                        <input type="text" id="productName" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="productCategory">Category</label>
+                        <select id="productCategory" class="form-control" required>
+                            <option value="">Select Category</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="productPrice">Price</label>
+                        <input type="number" id="productPrice" class="form-control" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="productStock">Stock Quantity</label>
+                        <input type="number" id="productStock" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="productDescription">Description</label>
+                        <textarea id="productDescription" class="form-control" rows="4"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn" onclick="document.getElementById('addProductModal').style.display='none'">Cancel</button>
+                <button type="button" class="btn btn-primary" id="saveProductBtn">Save Product</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Product Modal -->
+    <div class="modal" id="editProductModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Edit Product</h3>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="editProductForm">
+                    <input type="hidden" id="editProductId">
+                    <div class="form-group">
+                        <label for="editProductName">Product Name</label>
+                        <input type="text" id="editProductName" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editProductCategory">Category</label>
+                        <select id="editProductCategory" class="form-control" required>
+                            <option value="">Select Category</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="editProductPrice">Price</label>
+                        <input type="number" id="editProductPrice" class="form-control" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editProductStock">Stock Quantity</label>
+                        <input type="number" id="editProductStock" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editProductSales">Total Sales</label>
+                        <input type="number" id="editProductSales" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editProductDescription">Description</label>
+                        <textarea id="editProductDescription" class="form-control" rows="4"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn" onclick="document.getElementById('editProductModal').style.display='none'">Cancel</button>
+                <button type="button" class="btn btn-primary" id="updateProductBtn">Update Product</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/products.js"></script>
+</body>
+</html>
