@@ -529,7 +529,7 @@ textarea.input {
   height: 40px;
   width: 100px;
   background: #1989AC;
-  color: black;
+  color: white;
   font-weight: 700;
   border: none;
   border-radius: 0px 40px 40px 0px;
@@ -668,94 +668,40 @@ textarea.input {
 	03 -> Navigation
 ===========================================================*/
 
+/* Navigation Bar Background and Shade */
 #navigation {
-  background: whitesmoke;
-  border-bottom: 0.5solid #213555;
-  border-top: 0.5 solid #283E56;
+  background-color: #f9f9fb;
+  box-shadow: inset 0 -3px 5px #e4e7ed;
+  border: none;
 }
 
-/*----------------------------*\
-	Main nav
-\*----------------------------*/
-
-.main-nav>li+li {
-  margin-left: 15px
+/* Main Nav List Items */
+.main-nav > li {
+  display: inline-block;
 }
 
-.main-nav>li>a {
-  padding: 20px 0px;
-  font-weight: bolder;
+/* Rounded Button Style for Nav Links */
+.main-nav > li > a {
+  display: inline-block;
+  padding: 8px 10px;
+  border-radius: 20px;
+  font-weight: 600;
+  color: #2B2D42;
+  transition: all 0.2s ease-in-out;
 }
 
-.main-nav>li>a:hover, .main-nav>li>a:focus, .main-nav>li.active>a {
-  color: #1989AC;
-  background-color: transparent;
-}
-
-.main-nav>li>a:after {
-  content: "";
-  display: block;
-  width: 0%;
-  height: 2px;
+/* Hover and Active Styles */
+.main-nav > li > a:hover,
+.main-nav > li > a:focus,
+.main-nav > li.active > a {
   background-color: #1989AC;
-  -webkit-transition: 0.2s all;
-  transition: 0.2s all;
+  color: white;
+  text-decoration: none;
 }
 
-.main-nav>li>a:hover:after, .main-nav>li>a:focus:after, .main-nav>li.active>a:after {
-  width: 100%;
-}
-
-.header-ctn li.nav-toggle {
+/* Remove the underline hover effect */
+.main-nav > li > a:after {
   display: none;
-}
-
-/*----------------------------*\
-	responsive nav
-\*----------------------------*/
-
-@media only screen and (max-width: 991px) {
-  .header-ctn .menu-toggle {
-    display: inline-block;
-  }
-  #responsive-nav {
-    position: fixed;
-    left: 0;
-    top: 0;
-    background: #15161D;
-    height: 100vh;
-    max-width: 250px;
-    width: 0%;
-    overflow: hidden;
-    z-index: 22;
-    padding-top: 60px;
-    -webkit-transform: translateX(-100%);
-    -ms-transform: translateX(-100%);
-    transform: translateX(-100%);
-    -webkit-transition: 0.2s all;
-    transition: 0.2s all;
-  }
-  #responsive-nav.active {
-    -webkit-transform: translateX(0%);
-    -ms-transform: translateX(0%);
-    transform: translateX(0%);
-    width: 100%;
-  }
-  .main-nav {
-    margin: 0px;
-    float: none;
-  }
-  .main-nav>li {
-    display: block;
-    float: none;
-  }
-  .main-nav>li+li {
-    margin-left: 0px;
-  }
-  .main-nav>li>a {
-    padding: 15px;
-    color: #FFF;
-  }
 }
 
 /*=========================================================
@@ -913,8 +859,8 @@ textarea.input {
 }
 
 .product:hover {
-  -webkit-box-shadow: 0px 0px 6px 0px #E4E7ED, 0px 0px 0px 2px #D10024;
-  box-shadow: 0px 0px 6px 0px #E4E7ED, 0px 0px 0px 2px #D10024;
+  -webkit-box-shadow: 0px 0px 6px 0px #E4E7ED, 0px 0px 0px 2px #1989AC;
+  box-shadow: 0px 0px 6px 0px #E4E7ED, 0px 0px 0px 2px #1989AC;
 }
 
 .product .product-img {
@@ -1071,7 +1017,7 @@ textarea.input {
   right: 1px;
   bottom: 1px;
   padding: 15px;
-  background: #1e1f29;
+  background: #FFF;
   text-align: center;
   -webkit-transform: translateY(0%);
   -ms-transform: translateY(0%);
