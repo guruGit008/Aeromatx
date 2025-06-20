@@ -41,12 +41,28 @@ public class UserController {
 
     // Endpoint for Retrieving Users by Role - Returns List<UserDto>
     @GetMapping("/by-role")
-    // @PreAuthorize("hasRole(\'ADMIN\')") // COMMENTED OUT: This endpoint now allows all access
+   // @PreAuthorize("hasRole(\'ADMIN\')") // COMMENTED OUT: This endpoint now allows all access
     public ResponseEntity<List<UserDto>> getUsersByRole(@RequestParam String role) {
         List<UserDto> users = userService.findUsersByRole(role);
         if (users.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok(users);
+    }
+
+
+
+
+    /**
+     * DELETE endpoint to delete a user by ID
+     * Only accessible by ADMIN role
+     * @param id The ID of the user to delete
+     * @return ResponseEntity with status 200 if successful, 404 if user not found
+     */
+    @DeleteMapping("/{id}")
+   // @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+        boolean deleted = userService.deleteUser(id);
+        return deleted ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
     }
 }

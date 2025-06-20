@@ -18,6 +18,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.http.HttpMethod;
+
 
 @Configuration
 @EnableWebSecurity
@@ -69,7 +71,7 @@ public class SecurityConfig {
                     "/index.html", // Main index file
                     "/*.html", // Other HTML files at the root
                     "/*.css", "/*.js", // CSS/JS files at the root
-                    "/css/**", "/js/**", "/img/**", "/lib/**", "/fonts/**", // Common static folders
+                    "/css/**","/css2/**","/css3/**", "/js/**","/js2/**", "/img/**", "/lib/**", "/fonts/**", // Common static folders
                     "/favicon.ico", // Favicon
                     "/error", // Spring Boot default error page
                     "/assets/**", // For common assets folder (if you use it)
@@ -77,7 +79,11 @@ public class SecurityConfig {
                     "/admin_pannel/**" // This will cover all HTML, CSS, JS inside admin_pannel
                 ).permitAll()
 
-                // Permit all /api/auth endpoints for public access (registration, login, forgot/reset password API calls)
+               // Permit all /api/auth endpoints for public access (registration, login, forgot/reset password API calls)
+                .requestMatchers(HttpMethod.POST, "/api/vendor/register").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/vendor", "/api/vendor/{id}").permitAll()
+                .requestMatchers(HttpMethod.PUT, "/api/vendor/{id}").permitAll()
+                .requestMatchers(HttpMethod.DELETE, "/api/vendor/{id}").permitAll()
                 .requestMatchers("/api/auth/**").permitAll()
                 // TEMPORARY: Allow all product endpoints for quick testing (consider securing these later)
                 .requestMatchers("/api/products/**").permitAll()
@@ -87,6 +93,13 @@ public class SecurityConfig {
                 // This MUST come BEFORE the general /api/** authenticated() rule.
                 // Using the base path /api/users/by-role for more robust matching.
                 .requestMatchers("/api/users/by-role").permitAll()
+
+                // Specific DELETE endpoint for users (admin only)
+                //.requestMatchers(HttpMethod.DELETE, "/api/users/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/api/users/**").permitAll() 
+
+                // Allow admin login page
+                .requestMatchers("/admin_pannel/admin-login.html").permitAll()
 
                 // All other /api endpoints should require authentication
                 .requestMatchers("/api/**").authenticated()
@@ -99,4 +112,5 @@ public class SecurityConfig {
 
         return http.build();
     }
+    
 }

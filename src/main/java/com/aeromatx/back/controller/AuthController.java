@@ -4,23 +4,36 @@ import com.aeromatx.back.dto.auth.JwtResponse;
 import com.aeromatx.back.dto.auth.LoginRequest;
 import com.aeromatx.back.dto.auth.RegisterRequest;
 import com.aeromatx.back.dto.auth.VerificationRequest; // New DTO for OTP verification
+import com.aeromatx.back.dto.response.MessageResponse;
+import com.aeromatx.back.security.UserDetailsImpl;
 // DTOs for forgot/reset password requests
 import com.aeromatx.back.dto.auth.ForgotPasswordRequest;
 import com.aeromatx.back.dto.auth.ResetPasswordRequest;
 
 import com.aeromatx.back.service.AuthService;
 import com.aeromatx.back.service.EmailService;
+import com.aeromatx.back.util.*;
 import jakarta.validation.Valid;
+import java.util.List;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
 @RestController
 @RequestMapping("/api/auth") // Base path for all authentication-related endpoints
@@ -142,6 +155,58 @@ public class AuthController {
             Map<String, String> errorBody = new HashMap<>();
             errorBody.put("message", "Invalid or expired password reset token. Please try again.");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorBody);
+        }
+    }
+
+ @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private JwtUtil jwtUtil;
+
+    @PostMapping("/admin-login")
+    public ResponseEntity<?> authenticateAdmin(@RequestBody LoginRequest loginRequest) {
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                    loginRequest.getEmail(),
+                    loginRequest.getPassword()
+                )
+            );
+
+            UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+
+            // Check ADMIN role
+            boolean isAdmin = userDetails.getAuthorities().stream()
+                .anyMatch(role -> role.getAuthority().equals("ROLE_ADMIN"));
+
+            if (!isAdmin) {
+                return ResponseEntity
+                    .status(HttpStatus.FORBIDDEN)
+                    .body(new MessageResponse("Error: Admin access only"));
+            }
+
+            String jwt = jwtUtil.generateJwtToken(authentication);
+
+            // --- FIX START ---
+            // Convert Collection<? extends GrantedAuthority> to List<String>
+            List<String> roles = userDetails.getAuthorities().stream()
+                                        .map(GrantedAuthority::getAuthority) // Get the string representation of each authority
+                                        .collect(Collectors.toList()); // Collect them into a List<String>
+            // --- FIX END ---
+
+            return ResponseEntity.ok(new JwtResponse(
+                jwt,
+                userDetails.getId(),
+                userDetails.getUsername(),
+                userDetails.getEmail(),
+                roles // Pass the converted List<String> here
+            ));
+
+        } catch (AuthenticationException e) {
+            return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(new MessageResponse("Error: Invalid credentials"));
         }
     }
 }

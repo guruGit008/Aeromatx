@@ -21,8 +21,6 @@
 
     <script src="js/api.js"></script>
     <script src="js/layout-loader.js"></script>
-    <!-- Keep main.js for other functionalities, but this script will handle register logic -->
-    <!-- <script src="js/main.js"></script> --> 
 </head>
 
 <body>
@@ -70,7 +68,7 @@
                                 <input type="email" class="form-control" id="email" placeholder="Your Email" required />
                                 <p class="help-block text-danger"></p>
                             </div>
-                            <div class="control-group">
+                            <div class="control-group" id="companyControlGroup"> <!-- Added ID for easy access -->
                                 <label for="company" class="required">Company Name</label>
                                 <input type="text" class="form-control" id="company" placeholder="Company Name" required />
                                 <p class="help-block text-danger"></p>
@@ -127,14 +125,13 @@
     <script src="lib/easing/easing.min.js"></script>
     <script src="lib/owlcarousel/owl.carousel.min.js"></script>
 
-    <!-- Consider if main.js needs to run before or after your custom script for register.html -->
     <script src="js/main.js"></script> 
 
     <script>
         const registrationFormStep1 = document.getElementById("registrationFormStep1");
-        const registrationFields = document.getElementById("registrationFields"); // New container for step 1 fields
+        const registrationFields = document.getElementById("registrationFields");
         const otpVerificationSection = document.getElementById("otpVerificationSection");
-        const otpFormStep2 = document.getElementById("otpFormStep2"); // New ID for OTP form
+        const otpFormStep2 = document.getElementById("otpFormStep2");
         const otpInput = document.getElementById("otp");
         const sendOtpButton = document.getElementById("sendOtpButton");
         const verifyOtpButton = document.getElementById("verifyOtpButton");
@@ -142,6 +139,7 @@
         const usernameInput = document.getElementById("username");
         const emailInput = document.getElementById("email");
         const companyInput = document.getElementById("company");
+        const companyControlGroup = document.getElementById("companyControlGroup"); // Get the parent div for company
         const roleInput = document.getElementById("role");
         const passwordInput = document.getElementById("password");
         const confirmPasswordInput = document.getElementById("confirmPassword");
@@ -159,21 +157,74 @@
             messageDiv.style.display = "block";
         }
 
+        // Function to update form visibility and requirements based on role selection
+        function updateFormForRole() {
+            const selectedRole = roleInput.value;
+            if (selectedRole === 'OEM') {
+                // If OEM is selected, redirect to vendor_register.html immediately
+                window.location.href = 'vendor_register.html';
+                // Note: The rest of the function below will still execute,
+                // but the page will redirect.
+            } else if (selectedRole === 'CUSTOMER') {
+                // If Customer is selected, hide company field and make it optional
+                if (companyControlGroup) {
+                    companyControlGroup.style.display = 'none';
+                }
+                companyInput.removeAttribute('required');
+                companyInput.value = ''; // Clear value if previously entered
+                // Clear any error messages related to company field
+                const companyHelpBlock = companyInput.nextElementSibling;
+                if (companyHelpBlock && companyHelpBlock.classList.contains('help-block')) {
+                     companyHelpBlock.textContent = '';
+                }
+            } else {
+                // Default or empty selection: ensure company field is visible and required
+                if (companyControlGroup) {
+                    companyControlGroup.style.display = 'block';
+                }
+                companyInput.setAttribute('required', 'required');
+            }
+        }
+
+        // Add event listener for role changes
+        roleInput.addEventListener('change', updateFormForRole);
+
+        // Call on DOMContentLoaded to set initial state based on default selection (if any)
+        // This will hide the company field if 'CUSTOMER' is the default selected option
+        // or ensure it's visible if the default is empty/OEM or no default.
+        document.addEventListener('DOMContentLoaded', updateFormForRole);
+
+
         // --- Step 1: Initiate Registration (Send OTP) ---
         registrationFormStep1.addEventListener("submit", async function(event) {
             event.preventDefault(); // Prevent default form submission
             displayMessage("", "inherit"); // Clear previous messages
 
-            // --- Client-side Validation (for initial registration form) ---
+            const selectedRole = roleInput.value;
+            // Prevent submission if OEM is selected; user should have been redirected.
+            if (selectedRole === 'OEM') {
+                displayMessage("Please select 'Customer' to register here, or you will be redirected to the OEM registration page.", "orange");
+                setTimeout(() => { window.location.href = "vendor_register.html"; }, 1500); // Re-redirect after a short delay
+                return; 
+            }
+
+            // --- Client-side Validation ---
             const username = usernameInput.value.trim();
             const email = emailInput.value.trim();
-            const company = companyInput.value.trim();
-            const role = roleInput.value;
+            const company = companyInput.value.trim(); // Will be empty if hidden for customer
             const password = passwordInput.value;
             const confirmPassword = confirmPasswordInput.value;
 
-            if (!username || !email || !company || !role || !password || !confirmPassword) {
+            if (!username || !email || !selectedRole || !password || !confirmPassword) {
                 displayMessage("Please fill in all required fields.", "red");
+                return;
+            }
+
+            // Conditional validation for company name based on role
+            if (selectedRole === 'OEM' && !company) {
+                // This block should ideally not be reached if OEM selection redirects,
+                // but acts as a safeguard if redirection is blocked or user returns.
+                displayMessage("Company Name is required for OEM accounts.", "red");
                 return;
             }
 
@@ -192,8 +243,9 @@
                 username: username,
                 email: email,
                 password: password,
-                company: company,
-                role: role 
+                // Only include company if it's visible/relevant (e.g., for customer, it would be empty)
+                company: selectedRole === 'CUSTOMER' ? null : company, 
+                role: selectedRole
             };
             emailForOtpVerification = email; // Store email for the second step
 

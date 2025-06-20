@@ -5,6 +5,11 @@ import com.aeromatx.back.dto.user.UserDto;
 import com.aeromatx.back.entity.ERole;
 import com.aeromatx.back.entity.User;
 import com.aeromatx.back.repository.UserRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -78,12 +83,49 @@ public class UserService {
         });
     }
 
+        // ... existing code ...
+
+    /**
+     * Deletes a user by ID
+     * @param id The ID of the user to delete
+     * @return true if user was found and deleted, false if user not found
+     * @throws DataIntegrityViolationException if user has associated records that prevent deletion
+     */
     @Transactional
     public boolean deleteUser(Long id) {
-        if (userRepository.existsById(id)) {
+        // Check if user exists first to avoid unnecessary exception
+        if (!userRepository.existsById(id)) {
+            return false;
+        }
+        
+        try {
             userRepository.deleteById(id);
             return true;
+        } catch (DataIntegrityViolationException e) {
+            // Handle case where user can't be deleted due to foreign key constraints
+            throw new RuntimeException("Cannot delete user as they have associated records", e);
         }
-        return false;
     }
+
+    // Add these methods to your existing UserService class:
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    public ResponseEntity<?> changePassword(Long userId, String currentPassword, String newPassword) {
+        User user = userRepository.findById(userId)
+        .orElseThrow(() -> new RuntimeException("User not found"));
+
+    // Verify current password
+    if (!passwordEncoder.matches(currentPassword, user.getPassword())) {
+        return ResponseEntity
+                .badRequest()
+                .body("Current password is incorrect");
+    }
+
+    // Update password
+    user.setPassword(passwordEncoder.encode(newPassword));
+    userRepository.save(user);
+
+    return ResponseEntity.ok("Password updated successfully");
+}
 }

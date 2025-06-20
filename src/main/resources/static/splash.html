@@ -1,108 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Loading Aeromatx...</title>
-    <style>
-        /* Basic CSS for the splash screen - you can enhance this */
-        body {
-            margin: 0;
-            overflow: hidden; /* Hide scrollbars during animation */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background-color: #0d1a2f; /* Dark background matching your theme */
-            font-family: 'Poppins', sans-serif; /* Ensure Poppins is loaded via a CDN or local CSS */
-            color: white;
-            flex-direction: column;
-        }
-
-        #splash-container {
-            text-align: center;
-            opacity: 0; /* Initially hidden */
-            transition: opacity 0.8s ease-in-out; /* Smooth fade-in */
-        }
-
-        #splash-container.show {
-            opacity: 1;
-        }
-
-        .splash-logo {
-            width: 120px; /* Adjust size as needed */
-            height: 120px;
-            margin-bottom: 20px;
-            animation: pulse 1.5s infinite alternate; /* Simple pulse animation */
-        }
-
-        h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            color: #FF4500; /* Your brand color */
-        }
-
-        p {
-            font-size: 1.2em;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .loading-dots {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
-        }
-
-        .loading-dots span {
-            width: 15px;
-            height: 15px;
-            background-color: #FF4500;
-            border-radius: 50%;
-            margin: 0 5px;
-            animation: bounce 1.4s infinite ease-in-out both;
-        }
-
-        .loading-dots span:nth-child(1) { animation-delay: -0.32s; }
-        .loading-dots span:nth-child(2) { animation-delay: -0.16s; }
-        .loading-dots span:nth-child(3) { animation-delay: 0s; }
-
-        @keyframes pulse {
-            from { transform: scale(1); }
-            to { transform: scale(1.05); }
-        }
-
-        @keyframes bounce {
-            0%, 80%, 100% { transform: scale(0); }
-            40% { transform: scale(1); }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Loading Aeromatx...</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #0d1a2f;
+      font-family: 'Poppins', sans-serif;
+      color: white;
+      flex-direction: column;
+    }
+    #splash-container {
+      text-align: center;
+      opacity: 0;
+      transition: opacity 0.8s ease-in-out;
+    }
+    #splash-container.show {
+      opacity: 1;
+    }
+    .splash-logo {
+      width: 120px;
+      animation: pulse 1.5s infinite alternate;
+    }
+    h1 {
+      color: #FF4500;
+    }
+    .loading-dots span {
+      width: 15px;
+      height: 15px;
+      background-color: #FF4500;
+      border-radius: 50%;
+      margin: 0 5px;
+      animation: bounce 1.4s infinite ease-in-out both;
+    }
+    .loading-dots span:nth-child(1) { animation-delay: -0.32s; }
+    .loading-dots span:nth-child(2) { animation-delay: -0.16s; }
+    @keyframes pulse {
+      from { transform: scale(1); }
+      to { transform: scale(1.05); }
+    }
+    @keyframes bounce {
+      0%, 80%, 100% { transform: scale(0); }
+      40% { transform: scale(1); }
+    }
+  </style>
 </head>
 <body>
-    <div id="splash-container">
-        <img src="/assets/flight.png" alt="Aeromatx Logo" class="splash-logo">
-        <h1>Launching Your Aeromatx Experience</h1>
-        <p>Preparing your personalized aerospace journey. Please wait a moment.</p>
-        <div class="loading-dots">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
+  <div id="splash-container">
+    <img src="assets/flight.png" alt="Aeromatx Logo" class="splash-logo" />
+    <h1>Launching Your Aeromatx Experience</h1>
+    <p>Preparing your personalized aerospace journey. Please wait a moment.</p>
+    <div class="loading-dots">
+      <span></span><span></span><span></span>
     </div>
+  </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const splashContainer = document.getElementById('splash-container');
-            const animationDuration = 3000; // 3 seconds for the animation
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      const splashContainer = document.getElementById("splash-container");
+      splashContainer.classList.add("show");
 
-            // Show the splash screen with a fade-in effect
-            splashContainer.classList.add('show');
+      const token = localStorage.getItem("authToken");
 
-            // After the animation duration, redirect to the index page
-            setTimeout(() => {
-                window.location.href = '/index.html'; // Redirect to your static index.html
-            }, animationDuration);
-        });
-    </script>
+      setTimeout(async () => {
+        if (!token) {
+          window.location.href = "login.html";
+          return;
+        }
+
+        try {
+          const res = await fetch("http://localhost:8080/api/users/me", {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          });
+
+          if (res.ok) {
+            window.location.href = "index.html";
+          } else {
+            localStorage.removeItem("authToken");
+            localStorage.removeItem("loggedInUsername");
+            window.location.href = "login.html";
+          }
+        } catch (err) {
+          console.error("Auth check failed:", err);
+          window.location.href = "login.html";
+        }
+      }, 2000); // 2 seconds splash delay
+    });
+  </script>
 </body>
 </html>
